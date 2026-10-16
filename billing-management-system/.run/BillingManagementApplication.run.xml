@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="BillingManagementApplication" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="com.example.billing.BillingManagementApplication" />
+    <module name="billing-management-system" />
+    <envs>
+      <env name="MONGODB_URI" value="mongodb://localhost:27017/billing_management" />
+    </envs>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

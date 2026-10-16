@@ -1,0 +1,70 @@
+### Example API requests for the Billing Management System (port 8081).
+### Run each with the green arrow in IntelliJ's HTTP Client. Replace IDs with real ones.
+
+### Health check
+GET http://localhost:8081/api/health
+
+### Create a customer (status becomes ACTIVE automatically)
+POST http://localhost:8081/api/customers
+Content-Type: application/json
+
+{
+  "name": "Himalayan Traders Pvt. Ltd.",
+  "email": "accounts@himalayantraders.com.np",
+  "phone": "+977 1 4412345",
+  "address": "New Road, Kathmandu",
+  "panNumber": "601234567",
+  "customerType": "BUSINESS",
+  "notes": "Pays by bank transfer"
+}
+
+### Create a draft invoice (totals and 13% VAT are calculated by the server)
+POST http://localhost:8081/api/invoices
+Content-Type: application/json
+
+{
+  "customerId": "REPLACE_WITH_CUSTOMER_ID",
+  "issueDate": "2026-10-16",
+  "dueDate": "2026-10-31",
+  "items": [
+    { "description": "Website design", "quantity": 2, "unitPrice": 1500 },
+    { "description": "Domain and hosting (1 year)", "quantity": 1, "unitPrice": 999.99 }
+  ],
+  "discountAmount": 100,
+  "notes": "Thank you for your business"
+}
+
+### Issue the invoice (assigns INV-2026-0001 and locks it)
+POST http://localhost:8081/api/invoices/REPLACE_WITH_INVOICE_ID/issue
+
+### Record a payment
+POST http://localhost:8081/api/invoices/REPLACE_WITH_INVOICE_ID/payments
+Content-Type: application/json
+
+{
+  "amount": 1000,
+  "paymentDate": "2026-10-16",
+  "method": "ESEWA",
+  "reference": "ESW-20261016-001"
+}
+
+### Payments of an invoice
+GET http://localhost:8081/api/invoices/REPLACE_WITH_INVOICE_ID/payments
+
+### Overdue invoices
+GET http://localhost:8081/api/invoices/overdue
+
+### Invoices filtered
+GET http://localhost:8081/api/invoices?status=PARTIALLY_PAID&customerId=REPLACE_WITH_CUSTOMER_ID
+
+### Cancel an unpaid invoice
+POST http://localhost:8081/api/invoices/REPLACE_WITH_INVOICE_ID/cancel
+
+### Payments filtered by method and date range
+GET http://localhost:8081/api/payments?method=ESEWA&from=2026-10-01&to=2026-10-31
+
+### Customer account summary
+GET http://localhost:8081/api/customers/REPLACE_WITH_CUSTOMER_ID/summary
+
+### Dashboard
+GET http://localhost:8081/api/dashboard/summary
